@@ -19,13 +19,12 @@ class TransactionTest extends TestCase
 
 
         $data = [
-            "from" => 1,
             "to" => 2,
             "amount" => 10,
             "details" => "test"
         ];
 
-        $response = $this->json('POST', route('transactions.store', ['account', 1]), $data);
+        $response = $this->json('POST', route('transactions.store', ['account' => 1]), $data);
         $response->assertStatus(201);
         $response->assertJson(['success' => true]);
     }
@@ -35,13 +34,12 @@ class TransactionTest extends TestCase
         factory(Account::class, 2)->create();
 
         $data = [
-            "from" => 1,
             "to" => 2,
             "amount" => Account::find(1)->first()->balance + 100,
             "details" => "test"
         ];
 
-        $response = $this->json('POST', route('transactions.store', ['account', 1]), $data);
+        $response = $this->json('POST', route('transactions.store', ['account' => 1]), $data);
         $response->assertStatus(400);
         $response->assertJson(['success' => false]);
     }

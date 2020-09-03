@@ -19,8 +19,8 @@ class TransactionController extends Controller
         return $this->makeResponse(compact('transactions'));
     }
 
-    public function store(TransactionStoreRequest $request): JsonResponse
+    public function store(Account $account, TransactionStoreRequest $request): JsonResponse
     {
-        return TransactionFacade::save($request->denormalize()->toTransactionDTO());
+        return TransactionFacade::save($request->denormalize()->toTransactionDTO($account));
     }
 }

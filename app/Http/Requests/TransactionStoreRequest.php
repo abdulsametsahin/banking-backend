@@ -26,7 +26,6 @@ class TransactionStoreRequest extends FormRequest
     public function rules()
     {
         return [
-            'from' => ['required', 'exists:accounts,id'],
             'to' => ['required', 'exists:accounts,id', 'not_in:' . $this->input('from')],
             'amount' => ['required', 'numeric', 'min:0.1'],
             'details' => ['required', 'max:250']
