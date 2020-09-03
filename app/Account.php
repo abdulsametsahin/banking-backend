@@ -15,7 +15,9 @@ class Account extends Model
 
     public function transactions()
     {
-        return $this->hasMany(Transaction::class, 'from');
+        return Transaction::where('from', $this->id)
+            ->orWhere('to', $this->id)
+            ->get();
     }
 
     public function getCahceVariable()
@@ -33,7 +35,7 @@ class Account extends Model
                 floatval($transaction['amount']),
                 $transaction['details']
             );
-        }, $this->transactions->toArray());
+        }, $this->transactions()->toArray());
         Cache::put($this->getCahceVariable(), $transactionDTOs);
     }
 }
