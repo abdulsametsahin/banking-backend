@@ -8,6 +8,7 @@ use App\Account;
 use App\Transaction;
 use Exception;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Facades\Cache;
 
 class TransactionFacade
 {
@@ -46,9 +47,21 @@ class TransactionFacade
                 $transaction->details = $transactionDTO->getDetails();
                 $transaction->save();
             });
+
+            $fromAccount->cacheTransactions();
+
             return response()->json(['success' => true], 200);
         } catch (\Throwable $th) {
             return response()->json(['success' => false, 'errors' => [__('unknown_error')]], 400);
         }
+    }
+
+    public static function get(Account $account)
+    {
+        if (!Cache::has($account->getCahceVariable())) {
+            $account->cacheTransactions();
+        }
+
+        return Cache::get($account->getCahceVariable());
     }
 }
