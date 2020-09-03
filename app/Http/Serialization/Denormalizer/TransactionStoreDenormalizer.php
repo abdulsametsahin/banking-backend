@@ -7,10 +7,7 @@ namespace App\Http\Serialization\Denormalizer;
 use App\Helpers\Transaction\TransactionDTO;
 use App\Http\Requests\TransactionStoreRequest;
 
-/**
- * Class AddCountriesDenormalizer
- * @package App\Http\Serialization\Denormalizer
- */
+
 class TransactionStoreDenormalizer implements RequestDenormalizer
 {
     /** @var TransactionStoreRequest */
@@ -20,7 +17,7 @@ class TransactionStoreDenormalizer implements RequestDenormalizer
     private $attributes;
 
     /**
-     * AddKeywordsDenormalizer constructor.
+     * TransactionStoreDenormalizer constructor.
      * @param TransactionStoreRequest $request
      */
     public function __construct(TransactionStoreRequest $request)
