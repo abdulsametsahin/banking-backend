@@ -1,6 +1,7 @@
 <?php
 
 use App\Account;
+use App\Transaction;
 use Illuminate\Database\Seeder;
 
 class TransactionSeeder extends Seeder
@@ -12,6 +13,6 @@ class TransactionSeeder extends Seeder
      */
     public function run()
     {
-        factory(Account::class, 1000)->create();
+        factory(Transaction::class, 1000)->create();
     }
 }
