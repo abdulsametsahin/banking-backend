@@ -41,7 +41,7 @@ class AccountDTO
         return $this->balance;
     }
 
-    public function toArray()
+    public function toArray(): array
     {
         return [
             'id' => $this->getAccountId(),
