@@ -50,7 +50,7 @@ class TransactionFacade
 
             $fromAccount->cacheTransactions();
 
-            return response()->json(['success' => true], 200);
+            return response()->json(['success' => true], 201);
         } catch (\Throwable $th) {
             return response()->json(['success' => false, 'errors' => [__('unknown_error')]], 400);
         }
