@@ -14,7 +14,7 @@ class Controller extends BaseController
 {
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
 
-    public function makeResponse(array $data, array $errors = [], int $status = 200): JsonResponse
+    public function makeResponse(array $data = [], array $errors = [], int $status = 200): JsonResponse
     {
         return response()->json([
             'data' => $data,
