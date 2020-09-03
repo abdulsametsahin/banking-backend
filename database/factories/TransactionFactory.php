@@ -19,6 +19,6 @@ $factory->define(Transaction::class, function (Faker $faker) {
         'from' => $from->id,
         'to' => $to->id,
         'amount' => $faker->randomFloat(3, 0, 999999),
-        'details' => $faker->text(250)
+        'details' => $faker->text(50)
     ];
 });
