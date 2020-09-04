@@ -6,12 +6,16 @@ namespace App\Helpers\Transaction;
 
 use App\Account;
 use App\Transaction;
-use Exception;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\DB;
 
 class TransactionFacade
 {
+    /**
+     * @param Transaction $transaction
+     * @return TransactionDTO
+     */
     public static function getDTO(Transaction $transaction): TransactionDTO
     {
         return new TransactionDTO(
@@ -23,16 +27,36 @@ class TransactionFacade
         );
     }
 
+
+    /**
+     * @param Account $account
+     * @param bool $convertToArray
+     * @return array
+     */
+    public static function getDTOs(Account $account, bool $convertToArray = false): array
+    {
+        return array_map(function (TransactionDTO $transactionDTO) use ($convertToArray) {
+            return $convertToArray ? $transactionDTO->toArray() : $transactionDTO;
+        }, TransactionFacade::get($account));
+    }
+
+    /**
+     * @param TransactionDTO $transactionDTO
+     * @return JsonResponse
+     */
     public static function save(TransactionDTO $transactionDTO): JsonResponse
     {
         try {
             $fromAccount = Account::find($transactionDTO->getFrom());
 
             if ($fromAccount->balance < $transactionDTO->getAmount()) {
-                return response()->json(['success' => false, 'errors' => [__("insufficient balance")]], 400);
+                return response()->json([
+                    'success' => false,
+                    'errors' => [__("insufficient balance")]
+                ], 400);
             }
 
-            \DB::transaction(function () use ($transactionDTO, $fromAccount) {
+            DB::transaction(function () use ($transactionDTO, $fromAccount) {
                 $fromAccount->balance -= $transactionDTO->getAmount();
                 $fromAccount->save();
 
@@ -50,13 +74,22 @@ class TransactionFacade
 
             $fromAccount->cacheTransactions();
 
-            return response()->json(['success' => true], 201);
+            return response()->json([
+                'success' => true
+            ], 201);
         } catch (\Throwable $th) {
-            return response()->json(['success' => false, 'errors' => [__('unknown_error')]], 400);
+            return response()->json([
+                'success' => false,
+                'errors' => [__('unhandled_error')]
+            ], 400);
         }
     }
 
-    public static function get(Account $account)
+    /**
+     * @param Account $account
+     * @return TransactionDTO[]
+     */
+    public static function get(Account $account): iterable
     {
         if (!Cache::has($account->getCahceVariable())) {
             $account->cacheTransactions();
