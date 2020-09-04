@@ -8,6 +8,10 @@ use App\Account;
 
 class AccountFacade
 {
+    /**
+     * @param Account $account
+     * @return AccountDTO
+     */
     public static function getDTO(Account $account): AccountDTO
     {
         return new AccountDTO($account->id, $account->name, floatval($account->balance));
