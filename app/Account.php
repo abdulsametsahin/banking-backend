@@ -6,6 +6,11 @@ use App\Helpers\Transaction\TransactionDTO;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Cache;
 
+/**
+ * @property int id
+ * @property string name
+ * @property float balance
+ */
 class Account extends Model
 {
     protected $fillable = [
