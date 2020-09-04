@@ -2,7 +2,6 @@
 
 namespace App;
 
-use App\Helpers\Transaction\TransactionDTO;
 use App\Helpers\Transaction\TransactionFacade;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Cache;
@@ -50,8 +49,8 @@ class Account extends Model
             $this->getCacheVariable(),
             $this->transactions()
                 ->map(function (Transaction $transaction) {
-                return TransactionFacade::getDTO($transaction);
-            })->toArray()
+                    return TransactionFacade::getDTO($transaction);
+                })->toArray()
         );
     }
 }
