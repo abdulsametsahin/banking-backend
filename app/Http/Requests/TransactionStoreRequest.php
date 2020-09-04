@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Requests;
 
 use App\Account;
@@ -23,7 +25,7 @@ class TransactionStoreRequest extends FormRequest
      *
      * @return array
      */
-    public function rules()
+    public function rules(): array
     {
         return [
             'to' => ['required', 'exists:accounts,id', 'not_in:' . $this->input('from')],
@@ -32,6 +34,9 @@ class TransactionStoreRequest extends FormRequest
         ];
     }
 
+    /**
+     * @return TransactionStoreDenormalizer
+     */
     public function denormalize(): TransactionStoreDenormalizer
     {
         return new TransactionStoreDenormalizer($this);
