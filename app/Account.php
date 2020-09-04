@@ -3,6 +3,7 @@
 namespace App;
 
 use App\Helpers\Transaction\TransactionDTO;
+use App\Helpers\Transaction\TransactionFacade;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Cache;
 
@@ -13,12 +14,18 @@ use Illuminate\Support\Facades\Cache;
  */
 class Account extends Model
 {
+    /**
+     * @var string[]
+     */
     protected $fillable = [
         'name',
         'balance'
     ];
 
-    public function transactions()
+    /**
+     * @return Transaction[]
+     */
+    public function transactions(): iterable
     {
         return Transaction::where('from', $this->id)
             ->orWhere('to', $this->id)
@@ -26,22 +33,25 @@ class Account extends Model
             ->get();
     }
 
-    public function getCacheVariable()
+    /**
+     * @return string
+     */
+    public function getCacheVariable(): string
     {
         return "transaction_of_" . $this->id;
     }
 
-    public function cacheTransactions()
+    /**
+     * @return void
+     */
+    public function cacheTransactions(): void
     {
-        $transactionDTOs = array_map(function (array $transaction) {
-            return new TransactionDTO(
-                $transaction['id'],
-                $transaction['from'],
-                $transaction['to'],
-                floatval($transaction['amount']),
-                $transaction['details']
-            );
-        }, $this->transactions()->toArray());
-        Cache::put($this->getCacheVariable(), $transactionDTOs);
+        Cache::put(
+            $this->getCacheVariable(),
+            $this->transactions()
+                ->map(function (Transaction $transaction) {
+                return TransactionFacade::getDTO($transaction);
+            })->toArray()
+        );
     }
 }
