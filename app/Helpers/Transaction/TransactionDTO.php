@@ -6,13 +6,35 @@ namespace App\Helpers\Transaction;
 
 class TransactionDTO
 {
-
+    /**
+     * @var int
+     */
     private $transactionId;
+    /**
+     * @var int
+     */
     private $from;
+    /**
+     * @var int
+     */
     private $to;
+    /**
+     * @var float
+     */
     private $amount;
+    /**
+     * @var string
+     */
     private $details;
 
+    /**
+     * TransactionDTO constructor.
+     * @param int $transactionId
+     * @param int $from
+     * @param int $to
+     * @param float $amount
+     * @param string $details
+     */
     function __construct(int $transactionId, int $from, int $to, float $amount, string $details)
     {
         $this->transactionId = $transactionId;
@@ -22,46 +44,50 @@ class TransactionDTO
         $this->details = $details;
     }
 
+
     /**
-     * Get the value of transactionId
+     * @return int
      */
-    public function getTransactionId()
+    public function getTransactionId(): int
     {
         return $this->transactionId;
     }
 
     /**
-     * Get the value of from
+     * @return int
      */
-    public function getFrom()
+    public function getFrom(): int
     {
         return $this->from;
     }
 
     /**
-     * Get the value of to
+     * @return int
      */
-    public function getTo()
+    public function getTo(): int
     {
         return $this->to;
     }
 
     /**
-     * Get the value of amount
+     * @return float
      */
-    public function getAmount()
+    public function getAmount(): float
     {
         return $this->amount;
     }
 
     /**
-     * Get the value of details
+     * @return string
      */
-    public function getDetails()
+    public function getDetails(): string
     {
         return $this->details;
     }
 
+    /**
+     * @return array
+     */
     public function toArray(): array
     {
         return [
