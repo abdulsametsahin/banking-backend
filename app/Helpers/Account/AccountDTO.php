@@ -6,19 +6,29 @@ namespace App\Helpers\Account;
 
 class AccountDTO
 {
+    /**
+     * @var int
+     */
     private $accountId;
+    /**
+     * @var string
+     */
     private $name;
+    /**
+     * @var float
+     */
     private $balance;
 
     function __construct(int $accountId, string $name, float $balance)
     {
+
         $this->accountId = $accountId;
         $this->name = $name;
         $this->balance = $balance;
     }
 
     /**
-     * Get the value of accountId
+     * @return int
      */
     public function getAccountId(): int
     {
@@ -26,7 +36,7 @@ class AccountDTO
     }
 
     /**
-     * Get the value of name
+     * @return string
      */
     public function getName(): string
     {
@@ -34,13 +44,16 @@ class AccountDTO
     }
 
     /**
-     * Get the value of balance
+     * @return float
      */
     public function getBalance(): float
     {
         return $this->balance;
     }
 
+    /**
+     * @return array
+     */
     public function toArray(): array
     {
         return [
