@@ -26,7 +26,7 @@ class Account extends Model
             ->get();
     }
 
-    public function getCahceVariable()
+    public function getCacheVariable()
     {
         return "transaction_of_" . $this->id;
     }
@@ -42,6 +42,6 @@ class Account extends Model
                 $transaction['details']
             );
         }, $this->transactions()->toArray());
-        Cache::put($this->getCahceVariable(), $transactionDTOs);
+        Cache::put($this->getCacheVariable(), $transactionDTOs);
     }
 }

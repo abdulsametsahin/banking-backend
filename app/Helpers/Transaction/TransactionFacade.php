@@ -91,10 +91,10 @@ class TransactionFacade
      */
     public static function get(Account $account): iterable
     {
-        if (!Cache::has($account->getCahceVariable())) {
+        if (!Cache::has($account->getCacheVariable())) {
             $account->cacheTransactions();
         }
 
-        return Cache::get($account->getCahceVariable());
+        return Cache::get($account->getCacheVariable());
     }
 }
