@@ -29,7 +29,7 @@ class TransactionTest extends TestCase
         $response->assertJson(['success' => true]);
     }
 
-    public function testMakeTransactionOverBalance()
+    public function testDontAllowMakingTransactionOverBalance()
     {
         factory(Account::class, 2)->create();
 
