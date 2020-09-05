@@ -28,7 +28,7 @@ class Account extends Model
     {
         return Transaction::where('from', $this->id)
             ->orWhere('to', $this->id)
-            ->latest()
+            ->orderBy('id', 'desc')
             ->get();
     }
 
