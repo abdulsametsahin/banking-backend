@@ -16,10 +16,15 @@ class Controller extends BaseController
 
     public function makeResponse(array $data = [], array $errors = [], int $status = 200): JsonResponse
     {
-        return response()->json([
+        $response = [
             'data' => $data,
-            'errors' => $errors,
             'success' => in_array($status, [200, 201])
-        ]);
+        ];
+
+        if (count($errors) > 0) {
+            $response['errors'] = $errors;
+        }
+
+        return response()->json($response);
     }
 }
